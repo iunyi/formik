@@ -8,7 +8,20 @@ const MyRadio = ({ label, ...props }) => {
   return (
     <FormControlLabel label={label} {...field} control={<Radio />} />
   )
-}
+};
+
+const MyTextField = ({ placeholder, ...props}) => {
+  const [ field, meta] = useField(props);
+  const errorText = meta.error && meta.touched ? meta.error : ''
+  return (
+    <TextField 
+      placeholder={placeholder} 
+      {...field} 
+      helperText={errorText}
+      error={!!errorText}
+      />
+  )
+};
 
 const App = () => {
   return (
@@ -17,10 +30,30 @@ const App = () => {
         initialValues={{ 
           firstName: "", 
           lastName: "", 
-          isTall: "false", 
+          email:"",
+          isTall: false, 
           cookies: [],
           yogurt: '',
         }} 
+        validate={(values) => {
+          const errors = {};
+
+          if(!values.firstName) {
+            errors.firstName = 'This field is mandatory'
+          }
+          
+          if(!values.firstName) {
+            errors.firstName = 'This field is mandatory'
+          }
+
+          if (!values.email) {
+            errors.email = 'Required';
+          } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+            errors.email = 'Invalid email address';
+          }
+
+          return errors;
+        }}
         onSubmit={(data, { setSubmitting, resetForm}) => { 
           setSubmitting(true);
           // Make async call
@@ -29,22 +62,27 @@ const App = () => {
           resetForm();
         }}
       >
-        {({ values, isSubmitting }) => (
+        {({ values, errors, isSubmitting }) => (
           <Form>
             <div>
-              <Field 
+              <MyTextField 
                 name="firstName" 
                 type="input" 
                 placeholder="First name"
-                as={TextField} 
               />
             </div>
             <div>
-              <Field 
+              <MyTextField 
                 name="lastName" 
                 type="input" 
                 placeholder="Last name"
-                as={TextField} 
+              />
+            </div>
+            <div>
+              <MyTextField 
+                name="email" 
+                type="email" 
+                placeholder="email"
               />
             </div>
             <div>
@@ -75,6 +113,7 @@ const App = () => {
               </Button>
             </div>
             <pre>{JSON.stringify(values, null, 2)}</pre>
+            <pre>{JSON.stringify(errors, null, 2)}</pre>
           </Form>
         )}
       </Formik>
