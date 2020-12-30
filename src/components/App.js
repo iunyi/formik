@@ -1,7 +1,14 @@
 import React from 'react';
 import '../stylesheets/App.css';
-import { Formik, Form, Field } from 'formik';
-import { TextField, Button, Checkbox, Radio } from '@material-ui/core';
+import { Formik, Form, Field, useField } from 'formik';
+import { TextField, Button, Checkbox, Radio, FormControlLabel } from '@material-ui/core';
+
+const MyRadio = ({ label, ...props }) => {
+  const [ field ] = useField(props)
+  return (
+    <FormControlLabel label={label} {...field} control={<Radio />} />
+  )
+}
 
 const App = () => {
   return (
@@ -49,9 +56,15 @@ const App = () => {
               <Field name="cookies" type="checkbox" value="butter cream" as={Checkbox}/>
             </div>
             <div>
-              <Field name="yogurt" type="radio" value="lemon" as={Radio} />
-              <Field name="yogurt" type="radio" value="peach" as={Radio}/>
-              <Field name="yogurt" type="radio" value="pineapple" as={Radio}/>
+              <div>
+                <MyRadio name="yogurt" type="radio" value="lemon" label="Lemon" />
+              </div>
+              <div>
+                <MyRadio name="yogurt" type="radio" value="peach" label="Peach" />
+              </div>
+              <div>
+                <MyRadio name="yogurt" type="radio" value="pineapple" label="Pineapple" />
+              </div>
             </div>
             <div>
               <Button 
