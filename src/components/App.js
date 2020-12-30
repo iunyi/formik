@@ -2,6 +2,7 @@ import React from 'react';
 import '../stylesheets/App.css';
 import { Formik, Form, Field, useField } from 'formik';
 import { TextField, Button, Checkbox, Radio, FormControlLabel } from '@material-ui/core';
+import * as yup from 'yup';
 
 const MyRadio = ({ label, ...props }) => {
   const [ field ] = useField(props)
@@ -23,6 +24,13 @@ const MyTextField = ({ placeholder, ...props}) => {
   )
 };
 
+const validationSchema = yup.object({
+  firstName: yup
+    .string()
+    .required()
+    .max(20)
+})
+
 const App = () => {
   return (
     <div>
@@ -35,25 +43,7 @@ const App = () => {
           cookies: [],
           yogurt: '',
         }} 
-        validate={(values) => {
-          const errors = {};
-
-          if(!values.firstName) {
-            errors.firstName = 'This field is mandatory'
-          }
-          
-          if(!values.firstName) {
-            errors.firstName = 'This field is mandatory'
-          }
-
-          if (!values.email) {
-            errors.email = 'Required';
-          } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-            errors.email = 'Invalid email address';
-          }
-
-          return errors;
-        }}
+        validationSchema={validationSchema}
         onSubmit={(data, { setSubmitting, resetForm}) => { 
           setSubmitting(true);
           // Make async call
