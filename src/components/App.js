@@ -1,13 +1,13 @@
 import React from 'react';
 import '../stylesheets/App.css';
 import { Formik, Form, Field } from 'formik';
-import { TextField, Button } from '@material-ui/core';
+import { TextField, Button, Checkbox } from '@material-ui/core';
 
 const App = () => {
   return (
     <div>
       <Formik 
-        initialValues={{ firstName: "", lastName: "" }} 
+        initialValues={{ firstName: "", lastName: "", isTall: "false" }} 
         onSubmit={(data, { setSubmitting, resetForm}) => { 
           setSubmitting(true);
           // Make async call
@@ -33,6 +33,14 @@ const App = () => {
                 placeholder="Last name"
                 as={TextField} 
               />
+            </div>
+            <div>
+              <Field name="isTall" type="checkbox" as={Checkbox}/>
+            </div>
+            <div>
+              <Field name="cookies" type="checkbox" value="chocolate" as={Checkbox}/>
+              <Field name="cookies" type="checkbox" value="sugar" as={Checkbox}/>
+              <Field name="cookies" type="checkbox" value="cream" as={Checkbox}/>
             </div>
             <div>
               <Button 
