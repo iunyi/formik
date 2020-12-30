@@ -1,13 +1,19 @@
 import React from 'react';
 import '../stylesheets/App.css';
 import { Formik, Form, Field } from 'formik';
-import { TextField, Button, Checkbox } from '@material-ui/core';
+import { TextField, Button, Checkbox, Radio } from '@material-ui/core';
 
 const App = () => {
   return (
     <div>
       <Formik 
-        initialValues={{ firstName: "", lastName: "", isTall: "false" }} 
+        initialValues={{ 
+          firstName: "", 
+          lastName: "", 
+          isTall: "false", 
+          cookies: [],
+          yogurt: '',
+        }} 
         onSubmit={(data, { setSubmitting, resetForm}) => { 
           setSubmitting(true);
           // Make async call
@@ -40,7 +46,12 @@ const App = () => {
             <div>
               <Field name="cookies" type="checkbox" value="chocolate" as={Checkbox}/>
               <Field name="cookies" type="checkbox" value="sugar" as={Checkbox}/>
-              <Field name="cookies" type="checkbox" value="cream" as={Checkbox}/>
+              <Field name="cookies" type="checkbox" value="butter cream" as={Checkbox}/>
+            </div>
+            <div>
+              <Field name="yogurt" type="radio" value="lemon" as={Radio} />
+              <Field name="yogurt" type="radio" value="peach" as={Radio}/>
+              <Field name="yogurt" type="radio" value="pineapple" as={Radio}/>
             </div>
             <div>
               <Button 
