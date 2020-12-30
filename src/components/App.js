@@ -1,13 +1,13 @@
 import React from 'react';
 import '../stylesheets/App.css';
-import { Formik } from 'formik';
+import { Formik, Form, Field } from 'formik';
 import { TextField, Button } from '@material-ui/core';
 
 const App = () => {
   return (
     <div>
       <Formik 
-        initialValues={{ firstName: "" }} 
+        initialValues={{ firstName: "", lastName: "" }} 
         onSubmit={(data, { setSubmitting, resetForm}) => { 
           setSubmitting(true);
           // Make async call
@@ -16,14 +16,24 @@ const App = () => {
           resetForm();
         }}
       >
-        {({ values, isSubmitting, handleChange, handleBlur, handleSubmit }) => (
-          <form onSubmit={handleSubmit}>
-            <TextField 
-              name="firstName" 
-              value={values.firstName} 
-              onChange={handleChange} 
-              onBlur={handleBlur}
-            />
+        {({ values, isSubmitting }) => (
+          <Form>
+            <div>
+              <Field 
+                name="firstName" 
+                type="input" 
+                placeholder="First name"
+                as={TextField} 
+              />
+            </div>
+            <div>
+              <Field 
+                name="lastName" 
+                type="input" 
+                placeholder="Last name"
+                as={TextField} 
+              />
+            </div>
             <div>
               <Button 
                 type="submit" 
@@ -33,7 +43,7 @@ const App = () => {
               </Button>
             </div>
             <pre>{JSON.stringify(values, null, 2)}</pre>
-          </form>
+          </Form>
         )}
       </Formik>
     </div>
